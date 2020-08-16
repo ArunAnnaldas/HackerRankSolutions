@@ -1,6 +1,7 @@
+import java.io.IOException;
 import java.util.Scanner;
 
-public class PrintLinkedList {
+public class Solution {
 
 	static class SinglyLinkedListNode {
 		public int data;
@@ -14,27 +15,28 @@ public class PrintLinkedList {
 
 	static class SinglyLinkedList {
 		public SinglyLinkedListNode head;
-		public SinglyLinkedListNode tail;
 
 		public SinglyLinkedList() {
 			this.head = null;
-			this.tail = null;
 		}
 
-		public void insertNode(int nodeData) {
-			SinglyLinkedListNode node = new SinglyLinkedListNode(nodeData);
+	}
 
-			if (this.head == null) {
-				this.head = node;
-			} else {
-				this.tail.next = node;
+	public static void printSinglyLinkedList(SinglyLinkedListNode node, String sep)
+			throws IOException {
+		while (node != null) {
+			System.out.println(node.data);
+			//bufferedWriter.write(String.valueOf(node.data));
+
+			node = node.next;
+
+			if (node != null) {
+				//bufferedWriter.write(sep);
 			}
-
-			this.tail = node;
 		}
 	}
 
-	// Complete the printLinkedList function below.
+	// Complete the insertNodeAtTail function below.
 
 	/*
 	 * For your reference:
@@ -42,23 +44,30 @@ public class PrintLinkedList {
 	 * SinglyLinkedListNode { int data; SinglyLinkedListNode next; }
 	 *
 	 */
-	static void printLinkedList(SinglyLinkedListNode head) {
-		SinglyLinkedListNode temp;
-		while (true) {
-			if (head.next == null) {
-				System.out.println(head.data);
-				break;
-			}
-			else {
-				System.out.println(head.data);
-			}
+	static SinglyLinkedListNode insertNodeAtTail(SinglyLinkedListNode head, int data) {
+
+		SinglyLinkedListNode newNode = new SinglyLinkedListNode(data);
+		SinglyLinkedListNode returnHead = head;
+		newNode.next = null;
+
+		if (head == null) {
+			return newNode;
+		}
+
+		while (head.next != null) {
 			head = head.next;
 		}
+
+		head.next = newNode;
+		return returnHead;
+
 	}
 
 	private static final Scanner scanner = new Scanner(System.in);
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		//BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
 		SinglyLinkedList llist = new SinglyLinkedList();
 
 		int llistCount = scanner.nextInt();
@@ -68,10 +77,15 @@ public class PrintLinkedList {
 			int llistItem = scanner.nextInt();
 			scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-			llist.insertNode(llistItem);
+			SinglyLinkedListNode llist_head = insertNodeAtTail(llist.head, llistItem);
+
+			llist.head = llist_head;
 		}
 
-		printLinkedList(llist.head);
+		printSinglyLinkedList(llist.head, "\n");//, bufferedWriter);
+		//bufferedWriter.newLine();
+
+//		bufferedWriter.close();
 
 		scanner.close();
 	}
